@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>SUGIRA Lab | Portail Central des Ressources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0b1120, #05070c);
+            min-height: 100vh;
+            color: #eef2ff;
+            line-height: 1.5;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Effet de particules animées */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#3b82f6 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Animations de gradient flottant */
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 {
+            width: 40vw;
+            height: 40vw;
+            background: #3b82f6;
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 35vw;
+            height: 35vw;
+            background: #a855f7;
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 30vw;
+            height: 30vw;
+            background: #06b6d4;
+            top: 40%;
+            left: 60%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5%, 5%) scale(1.05); }
+            66% { transform: translate(-5%, 3%) scale(0.98); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header avec effet glass */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(59,130,246,0.2);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(59,130,246,0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5f3fc 50%, #c084fc 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Panneau principal glassmorphique */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        /* Barre de recherche et sélecteur */
+        .search-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.3rem;
+            height: 1.3rem;
+            color: #60a5fa;
+            pointer-events: none;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2rem;
+            font-size: 1rem;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        #searchInput:focus {
+            border-color: #3b82f6;
+            background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+        }
+
+        #searchInput::placeholder {
+            color: #64748b;
+        }
+
+        /* Filtres par catégories */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #cbd5e1;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: rgba(59,130,246,0.3);
+            border-color: #60a5fa;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Grille de ressources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 0.5rem 0.2rem;
+        }
+
+        .resources-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .resources-grid::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .resources-grid::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+
+        /* Carte ressource */
+        .resource-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(59,130,246,0.2);
+            border-color: rgba(59,130,246,0.6);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(59,130,246,0.2);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .resource-card:hover .card-icon {
+            background: #3b82f6;
+            transform: rotate(3deg) scale(1.05);
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: #f1f5f9;
+        }
+
+        .card-category {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .go-icon {
+            opacity: 0;
+            transform: translateX(-5px);
+            transition: all 0.2s;
+            color: #60a5fa;
+        }
+
+        .resource-card:hover .go-icon {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Statistiques */
+        .stats {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+        }
+
+        /* Animation d'entrée */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .resource-card {
+            animation: fadeInUp 0.5s ease backwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .glass-panel {
+                padding: 1.2rem;
+            }
+            .resources-grid {
+                grid-template-columns: 1fr;
+                max-height: 450px;
+            }
+            .filters {
+                gap: 0.5rem;
+            }
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Effet de loading / transition */
+        .redirect-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0f172ad9;
+            backdrop-filter: blur(12px);
+            padding: 0.8rem 1.4rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            border-left: 4px solid #3b82f6;
+            pointer-events: none;
+            z-index: 200;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .redirect-message.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="badge">✦ SUGIRA LAB — CENTRAL RESOURCES</div>
+            <h1>Portail <span style="background: linear-gradient(120deg,#a855f7,#3b82f6); background-clip:text; -webkit-background-clip:text; color:transparent;">Intelligent</span></h1>
+            <p class="subtitle">Navigation unifiée vers tous mes cours, travaux et infrastructures techniques</p>
+        </div>
+
+        <div class="glass-panel">
+            <div class="search-section">
+                <div class="search-wrapper">
+                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Rechercher un cours, un TP, une commande...">
+                </div>
+                <div class="filters" id="filterContainer">
+                    <button class="filter-btn active" data-filter="all">📁 Tous</button>
+                    <button class="filter-btn" data-filter="academique">📘 Cours Académique</button>
+                    <button class="filter-btn" data-filter="tp">⚙️ Travaux Expérimentaux</button>
+                    <button class="filter-btn" data-filter="commandes">💾 Commandes Admin</button>
+                    <button class="filter-btn" data-filter="portfolio">🎯 Portfolio</button>
+                </div>
+            </div>
+
+            <div id="resourcesGrid" class="resources-grid">
+                <!-- les cartes seront injectées ici dynamiquement -->
+                <div style="text-align:center; grid-column:1/-1; padding:2rem;">Chargement des ressources...</div>
+            </div>
+            <div class="stats" id="statsInfo">
+                <!-- Affichage dynamique du nombre de résultats -->
+            </div>
+        </div>
+    </div>
+
+    <div id="redirectToast" class="redirect-message">
+        🚀 Redirection en cours...
+    </div>
+
+    <script>
+        // ======================== DONNÉES (issues du fichier texte) ========================
+        const ressources = [
+            // Cours Académique
+            { titre: "Gestion de Projet", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Gestion-Projet" },
+            { titre: "Méthodes Agiles", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Methodes-Agiles" },
+            { titre: "Admin & Sécurité BYOD", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Administration-et-Securite-des-Ecosystemes-BYOD" },
+            { titre: "Azure Hybride", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Azure-Hybride" },
+            { titre: "Méthode Cycle V", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Methode-Cycle-V" },
+            { titre: "Admin Système", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Cours-Admin-Systeme" },
+            { titre: "SMSI (Sécurité Info)", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/Systemes-de-Management-de-la-Securite-d-Information" },
+            { titre: "Admin & Sécurisation Réseaux", categorie: "academique", url: "https://sugira-yannick.github.io/Administrer-et-securiser-les-infrastructures-reseaux" },
+            { titre: "Admin & Sécurisation Systèmes", categorie: "academique", url: "https://sugira-yannick.github.io/Administrer-et-securiser-les-infrastructures-systemes/" },
+            { titre: "MCSA 70-740 (WS 2016)", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-740-Windows-Server-2016" },
+            { titre: "MCSA 70-741 (WS 2016)", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-741-Windows-Server-2016" },
+            { titre: "MCSA 70-742 (WS 2016)", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-742-Windows-Server-2016" },
+            { titre: "Télémétrie & Supervision", categorie: "academique", url: "https://sugira-yannick.github.io/Sugira-Yannick/TELEMETRIE-SYSTEMIQUE-ET-SUPERVISION-D-INFRASTRUCTURE" },
+            // Travaux Expérimentaux
+            { titre: "Refonte SI & Sécurisation", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/REFONTE-ET-SECURISATION-DU-SYSTEME-D-INFORMATION" },
+            { titre: "Présentation Eve-ng + ELK", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Presentation-Eve-ng-ELK" },
+            { titre: "Déploiement Serveur Debian", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Serveur-Debian-Production" },
+            { titre: "Infra AD Services Métiers", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Infrastructure-Active-Directory-Services-Metiers" },
+            { titre: "Kubernetes sur Azure", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Kubernetes-sur-Azure" },
+            { titre: "Plateforme Messagerie", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Messagerie-Entreprise" },
+            { titre: "Supervision Centralisée", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Supervision-Centralisee" },
+            { titre: "Infra Windows Entreprise Sécurisée", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Infrastructure-Windows-Entreprise-Securise" },
+            { titre: "Plateforme Base de Données", categorie: "tp", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Base-de-Donnees-Centralisee" },
+            // Commandes Admin
+            { titre: "Divers Commandes Importantes", categorie: "commandes", url: "https://sugira-yannick.github.io/Sugira-Yannick/Divers-Commandes-Importantes" },
+            // Portfolio
+            { titre: "Portfolio Métier/Académique", categorie: "portfolio", url: "https://sugira-yannick.github.io/Sugira-Yannick/Portfolio" }
+        ];
+
+        // Émojis/icônes thématiques simplifiées
+        const getIconForCategory = (cat) => {
+            if(cat === 'academique') return '📚';
+            if(cat === 'tp') return '⚙️';
+            if(cat === 'commandes') return '⌨️';
+            if(cat === 'portfolio') return '🎯';
+            return '🔗';
+        };
+
+        const getCategoryLabel = (cat) => {
+            if(cat === 'academique') return 'COURS';
+            if(cat === 'tp') return 'TP';
+            if(cat === 'commandes') return 'CMD';
+            if(cat === 'portfolio') return 'PORTFOLIO';
+            return 'RESSOURCE';
+        };
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function renderGrid() {
+            const filtered = ressources.filter(item => {
+                const matchFilter = currentFilter === 'all' || item.categorie === currentFilter;
+                const matchSearch = currentSearch === '' || item.titre.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchFilter && matchSearch;
+            });
+
+            const gridContainer = document.getElementById('resourcesGrid');
+            const statsSpan = document.getElementById('statsInfo');
+
+            if(filtered.length === 0) {
+                gridContainer.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem 1rem; background: rgba(0,0,0,0.3); border-radius:2rem;">
+                                                🔍 Aucune ressource ne correspond à votre recherche.<br>
+                                                <span style="font-size:0.85rem;">Essayez un autre mot-clé ou filtre.</span>
+                                            </div>`;
+                statsSpan.innerHTML = `📭 0 ressource affichée`;
+                return;
+            }
+
+            gridContainer.innerHTML = filtered.map((item, idx) => {
+                return `
+                    <div class="resource-card" data-url="${item.url}" data-titre="${item.titre.replace(/'/g, "\\'")}">
+                        <div class="card-icon">${getIconForCategory(item.categorie)}</div>
+                        <div class="card-content">
+                            <div class="card-title">${escapeHtml(item.titre)}</div>
+                            <span class="card-category">${getCategoryLabel(item.categorie)}</span>
+                        </div>
+                        <div class="go-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            statsSpan.innerHTML = `✨ ${filtered.length} ressource${filtered.length > 1 ? 's' : ''} disponible${filtered.length > 1 ? 's' : ''}`;
+
+            // Ajouter les écouteurs sur chaque carte pour redirection
+            document.querySelectorAll('.resource-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const url = card.getAttribute('data-url');
+                    const titre = card.getAttribute('data-titre');
+                    if(url) {
+                        showToast(`🌐 Ouverture de "${titre}"`);
+                        setTimeout(() => {
+                            window.open(url, '_blank');
+                        }, 150);
+                    }
+                });
+            });
+        }
+
+        // Petit helper pour éviter XSS
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('redirectToast');
+            toast.textContent = `🚀 ${message}`;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        // Initialisation des événements
+        function init() {
+            renderGrid();
+
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                renderGrid();
+            });
+
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderGrid();
+                });
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
