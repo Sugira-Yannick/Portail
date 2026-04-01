@@ -21,14 +21,13 @@
             scroll-behavior: smooth;
         }
 
-        /* Layout */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Header Hero */
+        /* Hero Section */
         .hero {
             padding: 4rem 0 3rem;
             border-bottom: 1px solid #e2e8f0;
@@ -111,7 +110,7 @@
 
         .domains-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1rem;
         }
 
@@ -146,13 +145,13 @@
             line-height: 1.4;
         }
 
-        /* Main Dashboard */
+        /* Dashboard */
         .dashboard {
             padding: 2rem 0 4rem;
             background: #f8fafc;
         }
 
-        /* Navigation Tabs */
+        /* Tabs */
         .tabs-wrapper {
             background: white;
             border-radius: 20px;
@@ -547,37 +546,42 @@
 </div>
 
 <script>
+    // ==================== RESSOURCES AVEC LES BONS LIENS ====================
     const ressources = [
         // Cours Académique
-        { titre: "Gestion de Projet", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/Sugira-Yannick/Gestion-Projet", desc: "Méthodologies de gestion de projet, cycles de vie, planification et suivi" },
-        { titre: "Méthodes Agiles", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/Sugira-Yannick/Methodes-Agiles", desc: "Scrum, Kanban, Lean — frameworks agiles pour le développement" },
-        { titre: "Administration & Sécurité BYOD", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Sugira-Yannick/Administration-et-Securite-des-Ecosystemes-BYOD", desc: "Sécurisation des équipements personnels en entreprise" },
-        { titre: "Azure Hybride", categorie: "academique", tech: "cloud", url: "https://sugira-yannick.github.io/Sugira-Yannick/Azure-Hybride", desc: "Architectures cloud hybrides avec Microsoft Azure" },
-        { titre: "Méthode Cycle V", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Methode-Cycle-V", desc: "Validation et vérification en ingénierie système" },
-        { titre: "Administration Système", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Cours-Admin-Systeme", desc: "Fondamentaux de l'administration Linux et Windows" },
-        { titre: "SMSI - Sécurité de l'Information", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Sugira-Yannick/Systemes-de-Management-de-la-Securite-d-Information", desc: "ISO 27001, gestion des risques et conformité" },
+        { titre: "Gestion de Projet", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/Gestion-Projet", desc: "Méthodologies de gestion de projet, cycles de vie, planification et suivi" },
+        { titre: "Méthodes Agiles", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/Methodes-Agiles", desc: "Scrum, Kanban, Lean — frameworks agiles pour le développement" },
+        { titre: "Administration & Sécurité BYOD", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Administration-et-Securite-des-Ecosystemes-BYOD", desc: "Sécurisation des équipements personnels en entreprise" },
+        { titre: "Azure Hybride", categorie: "academique", tech: "cloud", url: "https://sugira-yannick.github.io/Azure-Hybride", desc: "Architectures cloud hybrides avec Microsoft Azure" },
+        { titre: "Méthode Cycle V", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Methode-Cycle-V", desc: "Validation et vérification en ingénierie système" },
+        { titre: "Administration Système", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Cours-Admin-Systeme", desc: "Fondamentaux de l'administration Linux et Windows" },
+        { titre: "SMSI - Sécurité de l'Information", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Systemes-de-Management-de-la-Securite-d-Information", desc: "ISO 27001, gestion des risques et conformité" },
         { titre: "Administration & Sécurisation Réseaux", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Administrer-et-securiser-les-infrastructures-reseaux", desc: "Sécurisation des infrastructures réseau" },
-        { titre: "Administration & Sécurisation Systèmes", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Administrer-et-securiser-les-infrastructures-systemes/", desc: "Hardening, patch management et audits systèmes" },
-        { titre: "MCSA 70-740 - Windows Server 2016", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-740-Windows-Server-2016", desc: "Installation, stockage et virtualisation Hyper-V" },
-        { titre: "MCSA 70-741 - Windows Server 2016", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-741-Windows-Server-2016", desc: "Services réseau : DNS, DHCP, IPAM" },
-        { titre: "MCSA 70-742 - Windows Server 2016", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/MCSA-70-742-Windows-Server-2016", desc: "Active Directory, GPO et gestion des identités" },
-        { titre: "Télémétrie & Supervision d'Infrastructure", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/Sugira-Yannick/TELEMETRIE-SYSTEMIQUE-ET-SUPERVISION-D-INFRASTRUCTURE", desc: "Observabilité, monitoring et supervision avancée" },
+        { titre: "Administration & Sécurisation Systèmes", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/Administrer-et-securiser-les-infrastructures-systemes", desc: "Hardening, patch management et audits systèmes" },
+        { titre: "MCSA 70-740 - Windows Server 2016", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/MCSA-70-740-Windows-Server-2016", desc: "Installation, stockage et virtualisation Hyper-V" },
+        { titre: "MCSA 70-741 - Windows Server 2016", categorie: "academique", tech: "network", url: "https://sugira-yannick.github.io/MCSA-70-741-Windows-Server-2016/", desc: "Services réseau : DNS, DHCP, IPAM" },
+        { titre: "MCSA 70-742 - Windows Server 2016", categorie: "academique", tech: "system", url: "https://sugira-yannick.github.io/MCSA-70-742-Windows-Server-2016/", desc: "Active Directory, GPO et gestion des identités" },
+        { titre: "Télémétrie & Supervision d'Infrastructure", categorie: "academique", tech: "devops", url: "https://sugira-yannick.github.io/TELEMETRIE-SYSTEMIQUE-ET-SUPERVISION-D-INFRASTRUCTURE", desc: "Observabilité, monitoring et supervision avancée" },
+        
         // Travaux Expérimentaux
-        { titre: "Refonte & Sécurisation du SI", categorie: "tp", tech: "network", url: "https://sugira-yannick.github.io/Sugira-Yannick/REFONTE-ET-SECURISATION-DU-SYSTEME-D-INFORMATION", desc: "Projet complet de refonte d'infrastructure sécurisée" },
-        { titre: "EVE-NG & ELK Stack", categorie: "tp", tech: "network", url: "https://sugira-yannick.github.io/Sugira-Yannick/Presentation-Eve-ng-ELK", desc: "Simulation réseau et centralisation de logs" },
-        { titre: "Déploiement Serveur Debian Production", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Serveur-Debian-Production", desc: "Installation et configuration serveur Debian" },
-        { titre: "Infrastructure Active Directory", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Infrastructure-Active-Directory-Services-Metiers", desc: "Déploiement complet d'une infrastructure AD" },
-        { titre: "Kubernetes sur Azure", categorie: "tp", tech: "cloud", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Kubernetes-sur-Azure", desc: "Orchestration de conteneurs avec AKS" },
-        { titre: "Plateforme Messagerie Entreprise", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Messagerie-Entreprise", desc: "Déploiement serveur mail sécurisé" },
-        { titre: "Supervision Centralisée", categorie: "tp", tech: "devops", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Supervision-Centralisee", desc: "Mise en place de solutions de monitoring" },
-        { titre: "Infrastructure Windows Entreprise Sécurisée", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Deploiement-Infrastructure-Windows-Entreprise-Securise", desc: "Architecture Windows sécurisée complète" },
-        { titre: "Plateforme Base de Données Centralisée", categorie: "tp", tech: "cloud", url: "https://sugira-yannick.github.io/Sugira-Yannick/Plateforme-de-Base-de-Donnees-Centralisee", desc: "Haute disponibilité et clustering de bases de données" },
-        // Commandes
-        { titre: "Commandes Administrateur", categorie: "commandes", tech: "system", url: "https://sugira-yannick.github.io/Sugira-Yannick/Divers-Commandes-Importantes", desc: "Cheat sheet PowerShell, Bash, commandes réseau essentielles" },
+        { titre: "Refonte & Sécurisation du SI", categorie: "tp", tech: "network", url: "https://sugira-yannick.github.io/REFONTE-ET-SECURISATION-DU-SYSTEME-D-INFORMATION", desc: "Projet complet de refonte d'infrastructure sécurisée" },
+        { titre: "EVE-NG & ELK Stack", categorie: "tp", tech: "network", url: "https://sugira-yannick.github.io/Presentation-Eve-ng-ELK", desc: "Simulation réseau et centralisation de logs" },
+        { titre: "Déploiement Serveur Debian Production", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Deploiement-Serveur-Debian-Production", desc: "Installation et configuration serveur Debian" },
+        { titre: "Infrastructure Active Directory", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Infrastructure-Active-Directory-Services-Metiers", desc: "Déploiement complet d'une infrastructure AD" },
+        { titre: "Kubernetes sur Azure", categorie: "tp", tech: "cloud", url: "https://sugira-yannick.github.io/Deploiement-Kubernetes-sur-Azure", desc: "Orchestration de conteneurs avec AKS" },
+        { titre: "Plateforme Messagerie Entreprise", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Plateforme-de-Messagerie-Entreprise", desc: "Déploiement serveur mail sécurisé" },
+        { titre: "Supervision Centralisée", categorie: "tp", tech: "devops", url: "https://sugira-yannick.github.io/Plateforme-de-Supervision-Centralisee", desc: "Mise en place de solutions de monitoring" },
+        { titre: "Infrastructure Windows Entreprise Sécurisée", categorie: "tp", tech: "system", url: "https://sugira-yannick.github.io/Deploiement-Infrastructure-Windows-Entreprise-Securise", desc: "Architecture Windows sécurisée complète" },
+        { titre: "Plateforme Base de Données Centralisée", categorie: "tp", tech: "cloud", url: "https://sugira-yannick.github.io/Plateforme-de-Base-de-Donnees-Centralisee", desc: "Haute disponibilité et clustering de bases de données" },
+        
+        // Commandes Administrateur
+        { titre: "Commandes Administrateur", categorie: "commandes", tech: "system", url: "https://sugira-yannick.github.io/Divers-Commandes-Importantes", desc: "Cheat sheet PowerShell, Bash, commandes réseau essentielles" },
+        
         // Portfolio
-        { titre: "Portfolio Professionnel", categorie: "portfolio", tech: "devops", url: "https://sugira-yannick.github.io/Sugira-Yannick/Portfolio", desc: "Présentation des projets, certifications et parcours" }
+        { titre: "Portfolio Professionnel", categorie: "portfolio", tech: "devops", url: "https://sugira-yannick.github.io/Portfolio", desc: "Présentation des projets, certifications et parcours" }
     ];
 
+    // Mise à jour du compteur
     document.getElementById('stat-total').innerText = ressources.length;
 
     let currentTab = 'all';
